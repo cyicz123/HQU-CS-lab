@@ -6,3 +6,4 @@ dist
 *.hm
 *.t
 *.out
+*.ipynb*

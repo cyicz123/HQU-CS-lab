@@ -1,0 +1,110 @@
+L  ->?E;L
+    |id=E;L
+    |$
+E  ->E+T
+    |E-T
+    |T
+T  ->T*F
+    |T/F
+    |F
+F  ->F^G
+    |G
+G  ->(E)
+    |-R
+    |log(R,E)
+    |k(E)
+    |id
+    |num
+R  ->id
+    |num
+
+消除左递归和提取公共左因子后：
+L  ->?E;L
+    |id=E;L
+    |$
+E  ->TE'
+E' ->+TE'
+    |-TE'
+    |$
+T  ->FT'
+T' ->*FT'
+    |/FT'
+    |$
+F  ->GF'
+F' ->^GF'
+    |$
+G  ->(E)
+    |-R
+    |log(R,E)
+    |k(E)
+    |id
+    |num
+R  ->id
+    |num
+
+求得FIRST集和FOLLOW集为：
+FIRST(L)    ={?,id,$}              FOLLOW(L)    ={#}
+FIRST(E)    ={(,-,log,k,id,num}    FOLLOW(E)    ={;,)}
+FIRST(E')   ={+,-,$}               FOLLOW(E')   ={;,)}
+FIRST(T)    ={(,-,log,k,id,num}    FOLLOW(T)    ={+,-,;,)}
+FIRST(T')   ={*,/,$}               FOLLOW(T')   ={+,-,;,)}
+FIRST(F)    ={(,-,log,k,id,num}    FOLLOW(F)    ={*,/,+,-,;,)}
+FIRST(F')   ={^,$}                 FOLLOW(F')   ={*,/,+,-,;,)}
+FIRST(G)    ={(,-,log,k,id,num}    FOLLOW(G)    ={^,*,/,+,-,;,)}
+FIRST(R)    ={id,num}              FOLLOW(R)    ={',',^,*,/,+,-,;,)}
+
+slr文法
+L  ->?E;L       1
+    |id=E;L     2
+    |$          3
+E  ->E+T        4
+    |E-T        5
+    |T          6
+T  ->T*F        7
+    |T/F        8
+    |F          9
+F  ->F^G        10
+    |G          11
+G  ->(E)        12
+    |-R         13
+    |log(R,E)   14
+    |k(E)       15
+    |id         16
+    |num        17
+R  ->id         18
+    |num        19
+
+将文法化为项目
+L'  ->.L    L'->L.
+
+L->.?E;L  L->?.E;L  L->?E.;L  L->?E;.L  L->?E;L.
+L->.id=E;L L->id.=E;L L->id=.E;L L->id=E.;L L->id=E;.L L->id=E;L.
+L->.
+
+E->.E+T E->E.+T E->E+.T E->E+T.
+E->.E-T E->E.-T E->E-.T E->E-T.
+E->.T   E->T.
+
+T->.T*F T->T.*F T->T*.F T->T*F.
+T->.T/F T->T./F T->T/.F T->T/F.
+T->.F   T->F.
+
+F->.F^G F->F.^G F->F^.G F->F^G.
+F->.G   F->G.
+
+G->.(E) G->(.E) G->(E.) G->(E).
+G->.-R  G->-.R  G->-R.
+G->.log(R,E)    G->log.(R,E)    G->log(.R,E)    G->log(R.,E)    G->log(R,.E)    G->log(R,E.)    G->log(R,E).
+G->.k(E)    G->k.(E)    G->k(.E)    G->k(E.)    G->k(E).
+G->.id  G->id.
+G->.num G->num.
+
+R->.id  R->id.
+R->.num R->num.
+原始文法求得FIRST集和FOLLOW集为：
+FIRST(L)    ={?,id,$}              FOLLOW(L)    ={#}
+FIRST(E)    ={(,-,log,k,id,num}    FOLLOW(E)    ={;,+,-,)}
+FIRST(T)    ={(,-,log,k,id,num}    FOLLOW(T)    ={*,/,+,-,;,)}
+FIRST(F)    ={(,-,log,k,id,num}    FOLLOW(F)    ={^,*,/,+,-,;,)}
+FIRST(G)    ={(,-,log,k,id,num}    FOLLOW(G)    ={^,*,/,+,-,;,)}
+FIRST(R)    ={id,num}              FOLLOW(R)    ={',',^,*,/,+,-,;,)}

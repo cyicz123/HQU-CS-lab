@@ -24,12 +24,17 @@ class Tokenizer:
         ###########################################
         #   K为关键字
         ###########################################
-        self.K = re.compile(r'(sin|cos|tan|tg|ctg|log|lg|ln)\b')
+        self.K = re.compile(r'(sin|cos|tan|tg|ctg|lg|ln)\b')
+
+        ###########################################
+        #   单独识别log,因为log需要做终结符
+        ###########################################
+        self.log = re.compile(r'log\b')
 
         ###########################################
         #   O为运算符或;
         ###########################################
-        self.O = re.compile(r'[+\-*/=^();?]')
+        self.O = re.compile(r'[+\-*/=^();?,]')
 
         ###########################################
         #   S为空格、回车或换行
@@ -55,6 +60,12 @@ class Tokenizer:
                     if m is not None:
                         i = m.end()
                         self.token.append(('k', m.group(), row, i))
+                        continue
+
+                    m = self.log.match(s, i)
+                    if m is not None:
+                        i = m.end()
+                        self.token.append((m.group(), m.group(), row, i))
                         continue
 
                     m = self.id.match(s, i)
