@@ -3,7 +3,4 @@ dist
 *.spec
 *.idea
 *__pycache__
-*.hm
-*.t
-*.out
 *.ipynb*
