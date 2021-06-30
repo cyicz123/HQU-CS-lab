@@ -28,7 +28,7 @@ def RR(jobs: list, q_t: int):
 
 
 if __name__ == '__main__':
-    parse = argparse.ArgumentParser(description='模拟FCFS和SJF算法')
+    parse = argparse.ArgumentParser(description='模拟RR算法')
     parse.add_argument('-t', '-T', required=True, nargs='+', type=float, help='每个进程到达时间T')
     parse.add_argument('-s', '-S', required=True, nargs='+', type=float, help='服务时间S')
     parse.add_argument('-q', required=True, type=int, help='切片时间q')
